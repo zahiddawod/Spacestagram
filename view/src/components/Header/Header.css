@@ -1,0 +1,51 @@
+.Header {
+  flex: 0 1 auto;
+  background: #fff;
+  border-bottom: 1px solid #dbdbdb;
+  min-height: 6rem;
+  width: 100%;
+}
+
+.InnerHeader {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#discover-button {
+  border-radius: 1rem;
+  border: none;
+  background-color: #e4e4e4;
+  height: 0;
+  width: 0;
+}
+
+#discover-button:hover {
+  background-color: #dbdbdb;
+}
+
+#likes-button {
+  border-radius: 1rem;
+  padding: 1rem;
+  border: none;
+  background-color: #e4e4e4;
+  margin-left: 2rem;
+  height: 0;
+  width: 0;
+}
+
+#likes-button:hover {
+  background-color: #dbdbdb;
+}
+
+@media (max-width: 500px) {
+  #logo {
+    display: none;
+  }
+  #likes-button {
+    margin-left: 10rem;
+  }
+}
