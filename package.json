@@ -1,6 +1,6 @@
 {
   "name": "spacestagram",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Image-sharing from the final frontier",
   "main": "app.js",
   "scripts": {
@@ -15,7 +15,8 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^11.0.0",
-    "express": "^4.17.2"
+    "express": "^4.17.2",
+    "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
