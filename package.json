@@ -8,7 +8,7 @@
     "install-all": "echo [INFO] Installing Backend Modules && npm install && cd view && echo [INFO] Installing Frontend Modules && npm install",
     "watch": "tsc -w",
     "dev": "concurrently \"nodemon dist/app.js\" \"cd view && npm run start\"",
-    "build": "concurrently \"tsc\" \"cd view && npm run build\"",
+    "build": "concurrently \"tsc\" \"cd view && npm install && npm run build\"",
     "start": "node dist/app.js"
   },
   "author": "Zahid Dawod",

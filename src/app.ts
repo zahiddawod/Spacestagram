@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import path from "path";
-import { __prod__, ENVIRONMENT, NASA_API } from "./util/secrets";
+import { __prod__, ENVIRONMENT } from "./util/secrets";
 
 // Create Express server
 const app = express();
