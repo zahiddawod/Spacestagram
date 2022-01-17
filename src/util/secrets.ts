@@ -10,4 +10,4 @@ if (fs.existsSync(".env")) {
 
 export const ENVIRONMENT = process.env.NODE_ENV || "development";
 export const __prod__ = ENVIRONMENT === "production";
-export const NASA_API = process.env.NASA_API || null;
+export const NASA_API_KEY = process.env.NASA_API_KEY || null;

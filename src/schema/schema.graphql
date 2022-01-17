@@ -1,0 +1,18 @@
+type Query {
+  getMostPopular(start: Int!, end: Int!): [Post]!
+  getOriginalImageFromPopular(id: String!): String!
+  getOriginalImage(collectionUrl: String!): String!
+  getRandomPosts: [PostAdditional]!
+}
+
+type PostAdditional {
+  postInfo: Post
+  collectionUrl: String
+}
+
+type Post {
+  id: String
+  title: String
+  url: String
+  description: String
+}

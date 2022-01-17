@@ -20,7 +20,6 @@
 
 .GridItem {
   padding: 1rem;
-  font-size: 30px;
   text-align: center;
 }
 
@@ -39,6 +38,10 @@
 .Polaris-MediaCard {
   display: block !important;
 }
+
+/*
+* Responsive Elements
+*/
 
 @media (max-width: 800px) {
   .GridContainer {

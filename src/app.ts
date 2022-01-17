@@ -2,9 +2,9 @@ import express, { Request, Response } from "express";
 import { ApolloServer } from "apollo-server-express";
 
 import path from "path";
+import fs from "fs";
 import { __prod__, ENVIRONMENT } from "./util/secrets";
-import resolvers from "./schema/resolvers";
-import typeDefs from "./schema/typeDefs";
+import { resolvers } from "./schema/resolvers";
 
 const PORT: number = parseInt(process.env.PORT || "8080");
 
@@ -18,7 +18,7 @@ const PORT: number = parseInt(process.env.PORT || "8080");
   if (__prod__) app.use(express.static(path.join(__dirname, "..", "view", "build")));
 
   const server = new ApolloServer({
-    typeDefs,
+    typeDefs: fs.readFileSync(path.join(__dirname, "../src/schema/schema.graphql")).toString("utf-8"),
     resolvers
   });
 
