@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { MediaCard } from "@shopify/polaris";
 import { ShareOutlined, FavoriteOutlined } from "@mui/icons-material";
 import "./Post.css";
@@ -8,6 +8,8 @@ export interface PostProp {
   url: string;
   description: string;
 }
+
+export type Posts = PostProp[];
 
 export const Post: React.FC<PostProp> = ({ title, url, description }) => {
   const favouritePost = (): void => {
@@ -26,7 +28,7 @@ export const Post: React.FC<PostProp> = ({ title, url, description }) => {
           icon: () => {
             return <FavoriteOutlined fontSize="large" color="error" />;
           },
-          onAction: () => {}
+          onAction: () => favouritePost
         }}
         secondaryAction={{
           content: "",
