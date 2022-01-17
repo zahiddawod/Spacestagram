@@ -15,6 +15,19 @@
   align-items: center;
 }
 
+#popular-button {
+  border-radius: 1rem;
+  border: none;
+  background-color: #e4e4e4;
+  margin-left: 2rem;
+  height: 0;
+  width: 0;
+}
+
+#popular-button:hover {
+  background-color: #dbdbdb;
+}
+
 #discover-button {
   border-radius: 1rem;
   border: none;

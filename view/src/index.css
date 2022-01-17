@@ -7,6 +7,36 @@ body {
   height: 100%;
 }
 
+p {
+  font-size: 1em !important;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+/*
+ * Custom scrollbar
+ */
+
+/* width */
+::-webkit-scrollbar {
+  width: 1em;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #e7e7e7;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #4a4650;
+  border-radius: 1em;
+  border: 0.3em solid #e7e7e7;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #6b747d;
 }

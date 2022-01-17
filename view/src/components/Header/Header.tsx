@@ -1,14 +1,22 @@
 import React from "react";
 import { Button } from "@shopify/polaris";
-import { ExploreOutlined, FavoriteOutlined } from "@mui/icons-material";
+import {
+  ExploreOutlined,
+  Explore,
+  FavoriteOutlined,
+  FavoriteBorder,
+  WhatshotSharp,
+  WhatshotOutlined
+} from "@mui/icons-material";
 import "./Header.css";
 
 interface Props {
+  selected: number;
   setSelected: (newSelection: number) => void;
 }
 
 function Header(props: Props) {
-  const { setSelected } = props;
+  const { selected, setSelected } = props;
 
   return (
     <div className="Header">
@@ -20,12 +28,35 @@ function Header(props: Props) {
           <Button
             id="discover-button"
             onClick={() => setSelected(0)}
-            icon={<ExploreOutlined fontSize="large" color="error" />}
+            icon={
+              selected === 0 ? (
+                <Explore fontSize="large" color="error" />
+              ) : (
+                <ExploreOutlined fontSize="large" color="error" />
+              )
+            }
+          />
+          <Button
+            id="popular-button"
+            onClick={() => setSelected(1)}
+            icon={
+              selected === 1 ? (
+                <WhatshotSharp fontSize="large" color="error" />
+              ) : (
+                <WhatshotOutlined fontSize="large" color="error" />
+              )
+            }
           />
           <Button
             id="likes-button"
-            onClick={() => setSelected(1)}
-            icon={<FavoriteOutlined fontSize="large" color="error" />}
+            onClick={() => setSelected(2)}
+            icon={
+              selected === 2 ? (
+                <FavoriteOutlined fontSize="large" color="error" />
+              ) : (
+                <FavoriteBorder fontSize="large" color="error" />
+              )
+            }
           />
         </div>
       </div>

@@ -37,9 +37,14 @@ export const httpRequest = (options: string | https.RequestOptions | URL): Promi
   });
 };
 
-export const generateRandomId = (length) => {
+export const generateRandomId = (length: number): string => {
   let result = [];
   let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   for (let i = 0; i < length; i++) result.push(characters.charAt(Math.floor(Math.random() * characters.length)));
   return result.join("");
+};
+
+export const getRandomKeyword = (): string => {
+  let list = ["halo", "mars", "satellite", "space", "stars", "milky", "milkyway", "moon", "earth"];
+  return list[Math.floor(Math.random() * list.length)];
 };
