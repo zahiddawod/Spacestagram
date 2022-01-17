@@ -1,4 +1,4 @@
-import { httpRequest } from "../util/helper";
+import { httpRequest, generateRandomId } from "../util/helper";
 
 let cachedPosts = [];
 
@@ -14,9 +14,12 @@ export default {
           let parsedData = JSON.parse(data);
           for (let i = 0; i < parsedData.collection.items.length; i++) {
             let currentPost = {
+              id: parsedData.collection.items[i].data[0].nasa_id || generateRandomId(11),
               title: parsedData.collection.items[i].data[0].title,
               url: parsedData.collection.items[i].links[0].href,
-              description: parsedData.collection.items[i].data[0].description_508
+              description:
+                parsedData.collection.items[i].data[0].description_508 ||
+                parsedData.collection.items[i].data[0].description
             };
             cachedPosts.push(currentPost);
           }

@@ -4,6 +4,7 @@ import { ShareOutlined, FavoriteOutlined } from "@mui/icons-material";
 import "./Post.css";
 
 export interface PostProp {
+  id: string;
   title: string;
   url: string;
   description: string;
@@ -11,9 +12,44 @@ export interface PostProp {
 
 export type Posts = PostProp[];
 
-export const Post: React.FC<PostProp> = ({ title, url, description }) => {
+const containsObject = (obj: PostProp, list: Posts) => {
+  for (let i = 0; i < list.length; i++)
+    if (list[i].title === obj.title && list[i].url === obj.url && list[i].description === obj.description) return true;
+  return false;
+};
+
+interface Props {
+  post: PostProp;
+  onLikePost: (post: PostProp) => void;
+  onUnlikePost: (post: PostProp) => void;
+}
+
+export const Post: React.FC<Props> = ({ post, onLikePost, onUnlikePost }) => {
   const favouritePost = (): void => {
-    console.log("Favourited");
+    let likedPosts: Posts = JSON.parse(localStorage.getItem("Liked Posts") || "[]");
+    let obj: PostProp = {
+      id: post.id,
+      title: post.title,
+      url: post.url,
+      description: post.description
+    };
+
+    // check if post is not already liked
+    if (!likedPosts?.length || !containsObject(obj, likedPosts)) {
+      likedPosts.push(obj);
+      onLikePost(obj);
+      localStorage.setItem("Liked Posts", JSON.stringify(likedPosts));
+      console.log("Favourited");
+    } else {
+      // if it is remove it
+      console.log("Removed");
+      //const index = likedPosts.indexOf(obj, 0);
+      //if (index > -1) likedPosts.splice(index, 1);
+      likedPosts = likedPosts.filter((item) => item.id !== post.id);
+      console.log(likedPosts);
+      localStorage.setItem("Liked Posts", JSON.stringify(likedPosts));
+      onUnlikePost(obj);
+    }
   };
 
   // click to open post
@@ -22,13 +58,13 @@ export const Post: React.FC<PostProp> = ({ title, url, description }) => {
   return (
     <div className="GridItem">
       <MediaCard
-        title={title}
+        title={post.title}
         primaryAction={{
           content: "",
           icon: () => {
             return <FavoriteOutlined fontSize="large" color="error" />;
           },
-          onAction: () => favouritePost
+          onAction: () => favouritePost()
         }}
         secondaryAction={{
           content: "",
@@ -38,7 +74,7 @@ export const Post: React.FC<PostProp> = ({ title, url, description }) => {
           onAction: () => {},
           plain: false
         }}
-        description={description}
+        description={post.description}
         popoverActions={[{ content: "Hide", onAction: () => {} }]}
       >
         <img
@@ -50,7 +86,7 @@ export const Post: React.FC<PostProp> = ({ title, url, description }) => {
             objectPosition: "center",
             cursor: "pointer"
           }}
-          src={url}
+          src={post.url}
           onClick={onClickPost}
         />
       </MediaCard>

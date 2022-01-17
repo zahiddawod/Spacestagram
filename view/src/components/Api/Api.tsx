@@ -17,6 +17,7 @@ export const fetchMostPopular = async (start: number, end: number): Promise<Post
   const response = await fetchData(`
       query getMostPopular {
         getMostPopular(start: ${start}, end: ${end}) {
+          id,
           title,
           url,
           description

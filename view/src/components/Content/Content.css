@@ -4,7 +4,13 @@
   display: flex;
 }
 
-.GridRow {
+.Grid {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.GridCol {
   display: flex;
   grid-template-columns: auto auto auto;
   flex-direction: column;
@@ -38,7 +44,7 @@
   .GridContainer {
     flex-direction: column;
   }
-  .GridRow {
+  .GridCol {
     width: 100%;
   }
 }

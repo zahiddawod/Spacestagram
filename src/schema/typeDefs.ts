@@ -5,6 +5,7 @@ export default gql`
     getMostPopular(start: Int!, end: Int!): [Post]
   }
   type Post {
+    id: String
     title: String
     url: String
     description: String

@@ -3,12 +3,13 @@ import https from "https";
 interface ResponseData {
   statusCode: number;
   data: string;
+  error?: string;
 }
 
 export const httpRequest = (options: string | https.RequestOptions | URL): Promise<ResponseData> => {
   if (!options)
     return new Promise<ResponseData>((_, reject) => {
-      reject({ statusCode: 0, err: "Missing 'options' arg." });
+      reject({ statusCode: 0, error: "Missing 'options' arg." });
     });
 
   return new Promise<ResponseData>((resolve, reject) => {
@@ -34,4 +35,11 @@ export const httpRequest = (options: string | https.RequestOptions | URL): Promi
 
     req.end();
   });
+};
+
+export const generateRandomId = (length) => {
+  let result = [];
+  let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for (let i = 0; i < length; i++) result.push(characters.charAt(Math.floor(Math.random() * characters.length)));
+  return result.join("");
 };
