@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import "./App.css";
 import { Toast, Frame } from "@shopify/polaris";
 import Header from "./components/Header/Header";

@@ -33,6 +33,7 @@ function Content(props: Props) {
     // load liked posts
     let likedPosts = JSON.parse(localStorage.getItem("Liked Posts") || "[]");
     for (let i = 0; i < likedPosts?.length; i++) likePost(likedPosts[i]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -65,10 +66,11 @@ function Content(props: Props) {
       });
     }, options);
 
-    if (loadingRef.current) observer.observe(loadingRef.current);
+    const node = loadingRef.current;
+    if (node) observer.observe(node);
 
     return () => {
-      if (loadingRef.current) observer.unobserve(loadingRef.current);
+      if (node) observer.unobserve(node);
     };
   }, [selected]);
 
