@@ -2,7 +2,7 @@ import React, { useState, forwardRef, useCallback } from "react";
 import "./Content.css";
 import "./LoadingSpinner.css";
 import { Post, PostProp, Posts } from "../Post/Post";
-import { fetchData } from "../Api/Api";
+import { fetchMostPopular } from "../Api/Api";
 
 const LoadingSpinner = forwardRef<HTMLDivElement>((props, ref) => (
   <div ref={ref} className="Center">
@@ -39,22 +39,14 @@ function Content(props: Props) {
     const options = {
       root: null,
       rootMargin: "0px",
-      threshold: 1
+      threshold: 0
     };
 
     const observer = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
       entries.forEach(async (entry: IntersectionObserverEntry) => {
         const { isIntersecting } = entry;
         if (isIntersecting) {
-          const data = await fetchData(`
-            query getMostPopular {
-              getMostPopular(start: ${nextN - 5}, end: ${nextN}) {
-                title,
-                url,
-                description
-              }
-            }
-          `);
+          const data = await fetchMostPopular(nextN - 5, nextN);
           if (!!data.length) nextN += 5;
           insertPosts(data);
         }
@@ -67,27 +59,6 @@ function Content(props: Props) {
       observer.unobserve(node);
     };
   }, []);
-
-  /*const fetchData2 = async (): Promise<void> => {
-    const response = await fetch("https://images-assets.nasa.gov/popular.json", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      }
-    });
-    const data = await response.json();
-    if (response.status === 200 || response.status === 304) {
-      for (let i = 0; i < data.collection.items.length; i++) {
-        let currentPost = {
-          title: data.collection.items[i].data[0].title,
-          url: data.collection.items[i].links[0].href,
-          description: data.collection.items[i].data[0].description_508
-        };
-        setApiPosts((apiPosts) => [...apiPosts, currentPost]);
-      } 
-    }
-  };*/
 
   const insertPosts = async (newPosts: Posts): Promise<void> => {
     for (let i = 0; i < newPosts.length; i++) {
