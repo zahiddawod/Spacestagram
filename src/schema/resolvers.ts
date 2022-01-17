@@ -1,7 +1,9 @@
 import { httpRequest, generateRandomId, getRandomKeyword } from "../util/helper";
-import { NASA_API_KEY } from "../util/secrets"; // doesn't seem like an api key is needed for the endpoints that I'm using
+import { NASA_API_KEY } from "../util/secrets";
 
 let cachedPosts = [];
+
+console.log(NASA_API_KEY); // doesn't seem like an api key is needed for the endpoints that I'm using
 
 const populateCache = async (): Promise<Boolean> => {
   let { statusCode, data } = await httpRequest("https://images-assets.nasa.gov/popular.json");
