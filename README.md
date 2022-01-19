@@ -20,6 +20,11 @@ or
 
 [<img src="https://codesandbox.io/static/banner-b3e4dc81348f7f65008a97a62f9125dd.png" target="_blank">](https://codesandbox.io/s/cranky-bash-pv7v9/)
 
+or
+
+Just want to view the code without downloading?
+> Press the `.` on your keyboard!
+
 ## Current Features
 
 - Infinite scrolling
