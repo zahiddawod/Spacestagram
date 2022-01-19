@@ -17,12 +17,12 @@ let allLikedPosts: PostProp[] = JSON.parse(
 
 interface IContentProps {
   currentPage: Page;
-  posts?: PostProp[]; // for testing
+  posts?: PostProp[];
 }
 
 function Content(props: IContentProps) {
   const {currentPage} = props;
-  const [postsList, setPostsList] = useState<PostProp[]>([]);
+  const [postsList, setPostsList] = useState<PostProp[]>(props?.posts || []);
 
   const loadingRef = useRef<HTMLDivElement>(null);
 

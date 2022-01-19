@@ -1,51 +1,35 @@
-import {shallow, mount, render} from 'enzyme';
-import App from '../../App';
+import {shallow} from 'enzyme';
 import Content from './Content';
+import {Post} from '../Post/Post';
 import LoadingSpinner from './subcomponents/LoadingSpinner';
-import {AppProvider} from '@shopify/polaris';
-import en from '@shopify/polaris/locales/en.json';
-import {Page, PostProp, PostAction} from '../../utilities/constants';
+import {Page, PostProp} from '../../utilities/constants';
 
-describe('Alternating between pages', () => {
-  /* let wrapper = mount(
-    <AppProvider i18n={en}>
-      <App />
-    </AppProvider>,
-  ); */
-  it('Rendered component correctly', () => {
+describe('Testing Content Component', () => {
+  it('Rendered correctly', () => {
     const wrapper = shallow(<Content currentPage={Page.Discover} />);
     expect(wrapper.contains(<LoadingSpinner />)).toBeTruthy();
+    expect(wrapper.is('.Content')).toBe(true);
   });
 
-  /* it('Should start at the discover page', () => {
-    let post: PostProp = {
-      id: '1',
-      title: 'first post',
-      url: '',
-      description: 'gaga',
-    };
-
-    wrapper.setState({postsList: [post]}); 
-    const wrapper = shallow(<Content currentPage={Page.Discover} />);
-    expect(wrapper.prop('currentPage')).toBe(Page.Discover); // 'first post').text()).toBe('first post');
-    //expect(wrapper.find(Content).prop('currentPage')).toBe(Page.Discover);
-  }); */
-
-  it('Render a post with mock data', () => {
-    //wrapper.find('#popular-button').simulate('click');
-    //expect(wrapper.find(Content).prop('currentPage')).toBe(Page.Popular);
-    /*  const mockData = [
+  it('Renders a post', () => {
+    const mockData: PostProp[] = [
       {
         id: '1',
         title: 'first post',
         url: '',
-        description: 'gaga',
+        description: 'haha',
       },
     ];
     const wrapper = shallow(
       <Content currentPage={Page.Discover} posts={mockData} />,
     );
-    console.log(wrapper.text());
-    expect(wrapper.text().includes('gaga')).toBeTruthy(); */
+    expect(wrapper.find(Post)).toHaveLength(1);
+    expect(wrapper.contains(<LoadingSpinner />)).toBeTruthy();
+  });
+
+  it('Renders the like page', () => {
+    const wrapper = shallow(<Content currentPage={Page.Favourites} />);
+    expect(wrapper.text()).toEqual('You have no likes :(');
+    expect(wrapper.contains(<LoadingSpinner />)).toBeFalsy();
   });
 });
