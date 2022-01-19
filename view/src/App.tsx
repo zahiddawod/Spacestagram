@@ -1,33 +1,19 @@
-import { useState, useCallback } from "react";
-import "./App.css";
-import { Toast, Frame } from "@shopify/polaris";
-import Header from "./components/Header/Header";
-import Content from "./components/Content/Content";
+import {useState} from 'react';
+import './App.css';
+import Header from './components/Header/Header';
+import Content from './components/Content/Content';
+import {Page} from './utilities/constants';
+import ToastContextProvider from './contexts/Notification/ToastContext';
 
 function App() {
-  const [selected, setSelected] = useState(0);
-
-  const [toastActive, setToastActive] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
-
-  const toggleActive = useCallback(() => setToastActive((toastActive) => !toastActive), []);
-
-  const showToast = (message: string) => {
-    setToastMessage(message);
-    toggleActive();
-  };
+  const [currentPage, setCurrentPage] = useState(Page.Discover);
 
   return (
     <div className="App">
-      <Header selected={selected} setSelected={setSelected} />
-      <Content selected={selected} showToast={showToast} />
-      {toastActive && (
-        <div style={{ height: "250px" }}>
-          <Frame>
-            <Toast content={toastMessage} onDismiss={toggleActive} />
-          </Frame>
-        </div>
-      )}
+      <ToastContextProvider>
+        <Header currentPage={currentPage} setCurrentPage={setCurrentPage} />
+        <Content currentPage={currentPage} />
+      </ToastContextProvider>
     </div>
   );
 }

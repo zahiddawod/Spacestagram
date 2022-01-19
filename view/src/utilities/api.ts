@@ -1,19 +1,24 @@
-import { Posts, PostProp } from "../Post/Post";
+import {PostProp} from './constants';
 
-const fetchData = async (query: string): Promise<Response> => {
-  return await fetch("/graphql", {
-    method: "POST",
+// helper function that accepts a specific graphql query
+const fetchData = async (query: string) => {
+  return await fetch('/graphql', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json"
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
     },
     body: JSON.stringify({
-      query: query
-    })
+      query: query,
+    }),
   });
 };
 
-export const fetchMostPopular = async (start: number, end: number): Promise<Posts> => {
+// gets the most popular posts from range: start to end
+export const fetchMostPopular = async (
+  start: number,
+  end: number,
+): Promise<PostProp[]> => {
   const response = await fetchData(`
     query getMostPopular {
       getMostPopular(start: ${start}, end: ${end}) {
@@ -28,7 +33,10 @@ export const fetchMostPopular = async (start: number, end: number): Promise<Post
   return data.data.getMostPopular;
 };
 
-export const fetchOriginalImageFromPopular = async (id: string): Promise<string> => {
+// gets the original image link from the most popular table
+export const fetchOriginalImageFromPopular = async (
+  id: string,
+): Promise<string> => {
   const response = await fetchData(`
     query getOriginalImageFromPopular {
       getOriginalImageFromPopular(id: "${id}")
@@ -38,7 +46,11 @@ export const fetchOriginalImageFromPopular = async (id: string): Promise<string>
   return data.data.getOriginalImageFromPopular;
 };
 
-export const fetchOriginalImage = async (collectionUrl: string): Promise<string> => {
+// gets the original image link by json link provided by nasa api
+// note: this is done because the nasa api doesn't give that information unless requested
+export const fetchOriginalImage = async (
+  collectionUrl: string,
+): Promise<string> => {
   const response = await fetchData(`
     query getOriginalImage {
       getOriginalImage(collectionUrl: "${collectionUrl}")
@@ -48,7 +60,8 @@ export const fetchOriginalImage = async (collectionUrl: string): Promise<string>
   return data.data.getOriginalImage;
 };
 
-export const fetchRandomPosts = async (): Promise<Posts> => {
+// gets a set of random posts from server
+export const fetchRandomPosts = async () => {
   const response = await fetchData(`
     query getRandomPosts {
       getRandomPosts {
@@ -63,14 +76,14 @@ export const fetchRandomPosts = async (): Promise<Posts> => {
     }
   `);
   const data = await response.json();
-  let posts: Posts = [];
+  let posts: PostProp[] = [];
   for (let i = 0; i < data?.data?.getRandomPosts?.length; i++) {
     let currentPost: PostProp = {
       id: data?.data?.getRandomPosts[i]?.postInfo?.id,
       title: data?.data?.getRandomPosts[i]?.postInfo?.title,
       description: data?.data?.getRandomPosts[i]?.postInfo?.description,
       url: data?.data?.getRandomPosts[i]?.postInfo?.url,
-      collectionUrl: data?.data?.getRandomPosts[i]?.collectionUrl
+      collectionUrl: data?.data?.getRandomPosts[i]?.collectionUrl,
     };
     posts.push(currentPost);
   }

@@ -1,73 +1,62 @@
-import React, { useEffect, useState } from "react";
-import { MediaCard } from "@shopify/polaris";
-import { ShareOutlined, FavoriteOutlined } from "@mui/icons-material";
-import { fetchOriginalImageFromPopular, fetchOriginalImage } from "../Api/Api";
+import React, {useEffect, useState} from 'react';
+import {MediaCard} from '@shopify/polaris';
+import {ShareOutlined, FavoriteOutlined} from '@mui/icons-material';
+import {
+  fetchOriginalImageFromPopular,
+  fetchOriginalImage,
+} from '../../utilities/api';
+import {useToast} from '../../contexts/Notification/ToastContext';
+import {PostProp, PostAction} from '../../utilities/constants';
 
-export interface PostProp {
-  id: string;
-  title: string;
-  url: string;
-  description: string;
-  collectionUrl?: string | null;
-  heartColor?: { fill: string } | null;
-}
-
-export type Posts = PostProp[];
-
-const containsObject = (obj: PostProp, list: Posts) => {
+const containsObject = (obj: PostProp, list: PostProp[]) => {
   for (let i = 0; i < list.length; i++) if (list[i].id === obj.id) return true;
   return false;
 };
 
-interface Props {
+interface IPostProps {
   post: PostProp;
-  onLikePost: (post: PostProp) => void;
-  onUnlikePost: (post: PostProp) => void;
-  showToast: (message: string) => void;
+  performAction: (post: PostProp, action: PostAction) => void;
 }
 
-export const Post: React.FC<Props> = ({ post, onLikePost, onUnlikePost, showToast }) => {
+export const Post: React.FC<IPostProps> = ({post, performAction}) => {
   const [isRemoved, setIsRemoved] = useState(false);
+  const Toast = useToast();
 
   useEffect(() => {}, [post.heartColor]);
 
-  const favouritePost = (): void => {
-    let likedPosts: Posts = JSON.parse(localStorage.getItem("Liked Posts") || "[]");
-    let obj: PostProp = {
+  const favouritePost = () => {
+    let allLikedPosts: PostProp[] = JSON.parse(
+      localStorage.getItem('Liked Posts') || '[]',
+    );
+    let postInfo: PostProp = {
       id: post.id,
       title: post.title,
       url: post.url,
-      description: post.description
+      description: post.description,
     };
-
     // check if post is not already liked
-    if (!likedPosts?.length || !containsObject(obj, likedPosts)) {
-      likedPosts.push(obj);
-      onLikePost(obj);
-      post.heartColor = { fill: "red !important" };
-      localStorage.setItem("Liked Posts", JSON.stringify(likedPosts));
+    if (!allLikedPosts.length || !containsObject(postInfo, allLikedPosts)) {
+      post.heartColor = {fill: 'red !important'};
+      performAction(postInfo, PostAction.Like);
     } else {
-      // if it is then remove it
-      localStorage.setItem("Liked Posts", JSON.stringify(likedPosts.filter((item) => item.id !== post.id)));
-      post.heartColor = { fill: "var(--p-icon) !important" };
-      onUnlikePost(obj);
+      // otherwise if it is then remove it
+      post.heartColor = {fill: 'var(--p-icon) !important'};
+      performAction(postInfo, PostAction.Unlike);
     }
   };
 
-  // click to open post
-  const onClickPost = (): void => {};
-
-  const copyToClipboard = async (): Promise<void> => {
+  // copy original image url to clipboard
+  const copyToClipboard = async () => {
     let imageUrl = post.collectionUrl
       ? await fetchOriginalImage(post.collectionUrl)
       : await fetchOriginalImageFromPopular(post.id);
     navigator.clipboard.writeText(imageUrl).then(
       () => {
-        showToast("Link copied to clipboard!");
+        Toast.showToast('Link copied to clipboard!');
       },
       () => {
-        showToast("Something went wrong.");
-      }
+        Toast.showToast('Something went wrong.');
+      },
     );
   };
 
@@ -78,24 +67,26 @@ export const Post: React.FC<Props> = ({ post, onLikePost, onUnlikePost, showToas
           <MediaCard
             title={post.title}
             primaryAction={{
-              content: "",
+              content: '',
               icon: () => {
-                return <FavoriteOutlined sx={post.heartColor} fontSize="large" />;
+                return (
+                  <FavoriteOutlined sx={post.heartColor} fontSize="large" />
+                );
               },
-              onAction: () => favouritePost()
+              onAction: () => favouritePost(),
             }}
             secondaryAction={{
-              content: "",
+              content: '',
               icon: () => {
                 return <ShareOutlined fontSize="large" />;
               },
               onAction: () => copyToClipboard(),
-              plain: false
+              plain: false,
             }}
             description={post.description}
             popoverActions={[
-              { content: "Hide", onAction: () => setIsRemoved(true) },
-              { content: "Report", onAction: () => setIsRemoved(true) }
+              {content: 'Hide', onAction: () => setIsRemoved(true)},
+              {content: 'Report', onAction: () => setIsRemoved(true)},
             ]}
           >
             <img
@@ -103,12 +94,11 @@ export const Post: React.FC<Props> = ({ post, onLikePost, onUnlikePost, showToas
               width="100%"
               height="100%"
               style={{
-                objectFit: "cover",
-                objectPosition: "center",
-                cursor: "pointer"
+                objectFit: 'cover',
+                objectPosition: 'center',
+                cursor: 'pointer',
               }}
               src={post.url}
-              onClick={onClickPost}
             />
           </MediaCard>
         </div>

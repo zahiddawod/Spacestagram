@@ -1,21 +1,22 @@
-import { Button } from "@shopify/polaris";
+import {Button} from '@shopify/polaris';
 import {
   ExploreOutlined,
   Explore,
   FavoriteOutlined,
   FavoriteBorder,
   WhatshotSharp,
-  WhatshotOutlined
-} from "@mui/icons-material";
-import "./Header.css";
+  WhatshotOutlined,
+} from '@mui/icons-material';
+import './Header.css';
+import {Page} from '../../utilities/constants';
 
-interface Props {
-  selected: number;
-  setSelected: (newSelection: number) => void;
+interface IHeaderProps {
+  currentPage: Page;
+  setCurrentPage: (newSelection: Page) => void;
 }
 
-function Header(props: Props) {
-  const { selected, setSelected } = props;
+function Header(props: IHeaderProps) {
+  const {currentPage, setCurrentPage} = props;
 
   return (
     <div className="Header">
@@ -26,9 +27,9 @@ function Header(props: Props) {
         <div>
           <Button
             id="discover-button"
-            onClick={() => setSelected(0)}
+            onClick={() => setCurrentPage(Page.Discover)}
             icon={
-              selected === 0 ? (
+              currentPage === Page.Discover ? (
                 <Explore fontSize="large" color="error" />
               ) : (
                 <ExploreOutlined fontSize="large" color="error" />
@@ -37,9 +38,9 @@ function Header(props: Props) {
           />
           <Button
             id="popular-button"
-            onClick={() => setSelected(1)}
+            onClick={() => setCurrentPage(Page.Popular)}
             icon={
-              selected === 1 ? (
+              currentPage === Page.Popular ? (
                 <WhatshotSharp fontSize="large" color="error" />
               ) : (
                 <WhatshotOutlined fontSize="large" color="error" />
@@ -48,9 +49,9 @@ function Header(props: Props) {
           />
           <Button
             id="likes-button"
-            onClick={() => setSelected(2)}
+            onClick={() => setCurrentPage(Page.Favourites)}
             icon={
-              selected === 2 ? (
+              currentPage === Page.Favourites ? (
                 <FavoriteOutlined fontSize="large" color="error" />
               ) : (
                 <FavoriteBorder fontSize="large" color="error" />
